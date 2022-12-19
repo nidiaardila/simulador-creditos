@@ -1,49 +1,57 @@
-// Clase Cuota
+class Cuota {
+  constructor(cuotaNro, mensualidad, pagocapital, pagointeres, credito) {
+    this.cuotaNro = cuotaNro;
+    this.mensualidad = mensualidad;
+    // this.fecha = fecha;
+    this.pagocapital = pagocapital;
+    this.pagointeres = pagointeres;
+    this.credito= credito;
+  }
 
-class Cuota{
-    
-    constructor(cuotaNro, capital, interes, total){
-        this.cuotaNro = cuotaNro;
-        // this.fecha = fecha;
-        this.capital = capital;
-        this.interes = interes;
-        this.total = total;
-    }
-
-    mostrar(){
-        console.log(`Cuota Nro: ${this.cuotaNro} Capital: ${this.capital} Interes: ${this.capital} Total: ${this.total}` )
-    }
+  mostrar() {
+    console.log(`Cuota Nro: ${this.cuotaNro} Cuota: ${this.mensualidad} Capital: ${this.pagocapital} Interes: ${this.pagointeres}  Saldo: ${this.credito}` );
+  }
 }
-
-let cuota1 = new Cuota(1, 100, 10, 110) 
-cuota1.mostrar();
 
 let totalCuotas = [];
 
+function calcularCredito(credito, cuotas, interes) {
+  let cuotaNro = 1;
+  let pagocapital = 0;
+  let pagointeres=0;
+  let mensualidad=0;
 
-
-function calcularCredito(credito, cuotas) {
-    let totalCredito = 0;
-    let mensual = (credito / cuotas) * 1.2;
+   mensualidad = credito * (Math.pow(1 + interes / 100, cuotas) * interes / 100) /(Math.pow(1 + interes / 100, cuotas) - 1);
   
-    if (cuotas > 5) {
-      mensual = (credito / cuotas) * 1.3;
-    } else if (cuotas > 12) {
-      mensual = (credito / cuotas) * 1.4;
-    }
+  for (let i = 1; i <=cuotas; i++) {
+    pagointeres = parseFloat(credito * (interes / 100));
+    pagocapital = mensualidad - pagointeres;
+    credito = parseFloat(credito - pagocapital);
   
-    for (i = 1; i <= cuotas; i++) {
-      totalCredito += mensual;
-      console.log(`cuota ${i} = ${mensual}`);
-    }
-    console.log(totalCredito);
-    return totalCredito;
+    let cuota = new Cuota(cuotaNro, mensualidad, pagocapital, pagointeres, credito);
+    totalCuotas.push(cuota);
+    cuotaNro++;
   }
-  
-  let credito = parseInt(prompt("Ingrese el monto a solicitar"));
-  let cuotas = parseInt(prompt("¿Cuantas cuotas desea?"));
-  
-  let total = calcularCredito(credito, cuotas);
-  
-  console.log(`Credito de $${credito} a ${cuotas} cuotas. Total a pagar $ ${total}`);
-  alert(`Credito de $${credito} a ${cuotas} cuotas. Total a pagar $ ${total}`);
+
+  for (let cuota of totalCuotas) {
+    cuota.mostrar();
+  }
+}
+
+
+function consultarCuota(cuota){
+  return cuota.cuotaNro == consulta
+}
+
+
+let credito = parseInt(prompt("Ingrese el monto a solicitar"));
+let cuotas = parseInt(prompt("¿Cuantas cuotas desea?"));
+let interes = parseFloat(prompt("Ingrese el interes"));
+
+calcularCredito(credito, cuotas, interes);
+
+
+let consulta = parseInt(prompt("Ingrese el numero de cuota que desea consultar"));
+console.log(`La cuota consulta es la cuota = ${consulta}`);
+let resultadoConsulta = totalCuotas.find(consultarCuota);
+console.log(resultadoConsulta);
