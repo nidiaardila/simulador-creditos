@@ -7,11 +7,6 @@ class Cuota {
     this.pagointeres = pagointeres;
     this.credito= credito;
   }
-
-  // mostrar() {
-  //   console.log(`Cuota Nro: ${this.cuotaNro} Cuota: ${this.mensualidad} Capital: ${this.pagocapital} Interes: ${this.pagointeres}  Saldo: ${this.credito}` );
-  // }
-  
 }
 
 let totalCuotas = [];
@@ -47,11 +42,6 @@ function calcularCredito(credito, cuotas, interes) {
 
   }
 
-  // let a =credito.toFixed(2);
-
-  // let tinteres = cuotas*pagointeres;
-  // document.getElementById("tinteres").innerHTML=tinteres; 
-
 }
 
 // function consultarCuota(cuota){
@@ -64,20 +54,45 @@ let interes = document.getElementById("interes");
 let btnSimular = document.getElementById("btnSimular");
 let tabla = document.getElementById("tbody");
 
-console.log(`credito === ${credito} cuotas ===${cuotas}  interes===${interes}`);
-// btnSimular.addEventListener('click', calcularCredito(Credito, cuotas, interes));
+let nombre = document.getElementById("nombre");
+let fecha = document.getElementById("fecha");
+
 
 btnSimular.addEventListener("click", () => {
  calcularCredito(credito.value, cuotas.value, interes.value);
 });
 
-// let credito = parseInt(prompt("Ingrese el monto a solicitar"));
-// let cuotas = parseInt(prompt("¿Cuantas cuotas desea?"));
-// let interes = parseFloat(prompt("Ingrese el interes"));
+btnBorrar.addEventListener("click", () => {
+nombre.value = '';
+fecha.value = '';
+credito.value = '';
+cuotas.value = '' ;
+interes.value = '' ;
+tbody.innerHTML= '';
+});
 
-// calcularCredito(credito, cuotas, interes);
+// localStorage
+nombre.addEventListener('input', () => {
+  localStorage.setItem('nombre', nombre.value);
+});
+fecha.addEventListener('input', () => {
+  localStorage.setItem('fecha', fecha.value);
+});
+credito.addEventListener ('input', () => {
+  localStorage.setItem ('credito', credito.value);
+});
+cuotas.addEventListener ('input', () => {
+  localStorage.setItem ('cuotas', cuotas.value);
+});
+interes.addEventListener ('input', () => {
+  localStorage.setItem ( 'interes', interes.value);
+});
 
-// let consulta = parseInt(prompt("Ingrese el numero de cuota que desea consultar"));
-// console.log(`La cuota consulta es la cuota = ${consulta}`);
-// let resultadoConsulta = totalCuotas.find(consultarCuota);
-// console.log(resultadoConsulta);
+window.addEventListener('load', ()=> {
+  nombre.value = .getItem ('nombre');
+  fecha.value = localStorage.getItem ('fecha');
+  credito.value = localStorage.getItem ('credito');
+  cuotas.value = localStorage.getItem ('cuotas');
+  interes.value = localStorage.getItem('interes');
+  // localStorage.clear();
+} );

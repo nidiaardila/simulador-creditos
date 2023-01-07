@@ -73,12 +73,16 @@
               aria-describedby="basic-addon1"
             />
           </div>
+          <div class="d-flex justify-content-center m-4">
           <button type="button" class="btn btn-primary m-4" id="btnSimular">Simular Crédito</button>
+          <button type="button" class="btn btn-danger m-4" id="btnBorrar">Borrar</button>
+          </div>
         </form>
       </div>
       <hr />
 
       <table class="table">
+        <h3 class="text-center m-4">Tabla de amortizaciones</h3>
         <thead>
           <tr class="table-primary">
             <th class="table-primary" scope="col">Cuota Nro</th>
@@ -92,7 +96,7 @@
         <tbody id="tbody"></tbody>
         <tfoot>
           <tr>
-            <th scope="row">TOTAL</th>
+            <th scope="row"></th>
             <!-- <td></td> -->
             <td id="tcuota"></td>
             <td id="tcapital"></td>
