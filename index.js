@@ -1,7 +1,7 @@
 //clase cuota
 class Cuota {
-  constructor(cuotaNro, mensualidad, pagocapital, pagointeres, credito) {
-    this.cuotaNro = cuotaNro;
+  constructor(numeroCuota, fecha, mensualidad, pagocapital, pagointeres, credito) {
+    this.numeroCuota = numeroCuota;
     this.fecha = fecha;
     this.mensualidad = mensualidad;
     this.pagocapital = pagocapital;
@@ -15,27 +15,30 @@ let totalCuotas = [];
 
 //funcion calcularCredito
 function calcularCredito(credito, cuotas, interes) {
-  let cuotaNro = 1;
+  let numeroCuota = 1;
   let pagocapital = 0;
   let pagointeres = 0;
   let mensualidad = 0;
   let fecha = new Date();
+//variables para calcular el total a pagar
+  let tcuota = 0;
+  let tcapital = 0;
+  let tinteres = 0;
 
   mensualidad =(credito * ((Math.pow(1 + interes / 100, cuotas) * interes) / 100)) / (Math.pow(1 + interes / 100, cuotas) - 1);
-    
+
   for (let i = 1; i <= cuotas; i++) {
-      // Calcula la fecha de pago de la cuota
-      fecha.setMonth(fecha.getMonth() + 1);
-      fecha.setDate(1);
-      
-      
+    // Calcula la fecha de pago de la cuota
+    fecha.setMonth(fecha.getMonth() + 1);
+    fecha.setDate(1);
+
     pagointeres = parseFloat(credito * (interes / 100));
     pagocapital = mensualidad - pagointeres;
     credito = parseFloat(credito - pagocapital);
 
     let cuota = new Cuota(
+      numeroCuota,
       fecha,
-      cuotaNro,
       mensualidad,
       pagocapital,
       pagointeres,
@@ -44,7 +47,7 @@ function calcularCredito(credito, cuotas, interes) {
     totalCuotas.push(cuota);
 
     let row = document.createElement("tr");
-    row.innerHTML = `<td>${cuotaNro}</td>
+    row.innerHTML = `<td>${numeroCuota}</td>
                    <td>${fecha.toDateString()}</td>
                    <td>${mensualidad.toFixed(2)}</td>
                    <td>${pagocapital.toFixed(2)}</td>
@@ -54,51 +57,53 @@ function calcularCredito(credito, cuotas, interes) {
     let tabla = document.getElementById("tbody");
     tabla.append(row);
 
-    cuotaNro++;
+    numeroCuota++;
   }
 
   //calcular el total pagado en interes, capital y cuotas
-  for(let i=0; i < totalCuotas.length; i++){
+  for (let i = 0; i < totalCuotas.length; i++) {
     tcuota += totalCuotas[i].mensualidad;
     tcapital += totalCuotas[i].pagocapital;
     tinteres += totalCuotas[i].pagointeres;
   }
+
   let totalCuota = document.getElementById("totalCuota");
   totalCuota.innerHTML = tcuota.toFixed(2);
 
-  let totalCapital = document.getElementById ("totalCapital");
+  let totalCapital = document.getElementById("totalCapital");
   totalCapital.innerHTML = tcapital.toFixed(2);
 
-  let totalInteres = document.getElementById ("totalInteres");
+  let totalInteres = document.getElementById("totalInteres");
   totalInteres.innerHTML = tinteres.toFixed(2);
 
-  // JSON
-// Convertir el array de objetos 'totalCuotas' a una cadena de texto JSON
-let totalCuotasJSONString = JSON.stringify(totalCuotas);
+  // Convertir el array de objetos 'totalCuotas' a una cadena de texto JSON
+  let totalCuotasJSONString = JSON.stringify(totalCuotas);
 
-// Almacenar la cadena JSON en el almacenamiento local
-localStorage.setItem("totalCuotas", totalCuotasJSONString);
+  // Almacenar la cadena JSON en el almacenamiento local
+  localStorage.setItem("totalCuotas", totalCuotasJSONString);
 
-// Recuperar la cadena JSON del almacenamiento local
-let totalCuotasJSONFromStorage = localStorage.getItem("totalCuotas");
+  // Recuperar la cadena JSON del almacenamiento local
+  let totalCuotasJSONFromStorage = localStorage.getItem("totalCuotas");
 
-// Convertir la cadena JSON a un array de objetos
-let totalCuotasArray = JSON.parse(totalCuotasJSONFromStorage);
+  // Convertir la cadena JSON a un array de objetos
+  let totalCuotasArray = JSON.parse(totalCuotasJSONFromStorage);
 
-console.log("totalCuotasJSONString");
-console.log(totalCuotasJSONString);
-console.log("totalCuotasJSONFromStorage");
-console.log(totalCuotasJSONFromStorage);
-console.log("totalCuotasArray");
-console.log(totalCuotasArray);
-
-
+  console.log("totalCuotasJSONString");
+  console.log(totalCuotasJSONString);
+  console.log("totalCuotasJSONFromStorage");
+  console.log(totalCuotasJSONFromStorage);
+  console.log("totalCuotasArray");
+  console.log(totalCuotasArray);
 }
 
-// function consultarCuota(cuota){
-//   return cuota.cuotaNro == consulta
-// }
-
+//funcion limpiar la tabla - borrar
+function limpiarTabla() {
+  let tabla = document.getElementById("tbody");
+  tabla.innerHTML = "";
+  let filaTotales = document.getElementById("filaTotales");
+  filaTotales.parentNode.removeChild(filaTotales);
+  }
+  
 let credito = document.getElementById("credito");
 let cuotas = document.getElementById("cuotas");
 let interes = document.getElementById("interes");
@@ -108,11 +113,6 @@ let tabla = document.getElementById("tbody");
 let nombre = document.getElementById("nombre");
 let fecha = document.getElementById("fecha");
 
-//variables para calcular el total a pagar
-let tcuota = 0;
-let tcapital = 0;
-let tinteres = 0;
-
 //boton simular - llamado a funcion calcularCredito
 let simulationDone = false;
 btnSimular.addEventListener("click", () => {
@@ -120,22 +120,12 @@ btnSimular.addEventListener("click", () => {
     calcularCredito(credito.value, cuotas.value, interes.value);
     simulationDone = true;
   }
-  
 });
 
-//boton borrar
-btnBorrar.addEventListener("click", () => {
-  nombre.value = "";
-  fecha.value = "";
-  credito.value = "";
-  cuotas.value = "";
-  interes.value = "";
-  tbody.innerHTML = "";
-  totalCuota.innerHTML = "";
-  totalCapital.innerHTML = "";
-  totalInteres.innerHTML = "";
+// manejador de evento para el botón Borrar - llama a la función para limpiar la tabla
+document.getElementById("btnBorrar").addEventListener("click", function () {
+  limpiarTabla();
 });
-
 
 // localStorage
 nombre.addEventListener("input", () => {
