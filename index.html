@@ -11,6 +11,8 @@
   </head>
   <body>
     <div class="container">
+      <div class="row">
+        <div class="col-11">
       <h1>Simulador de creditos</h1>
       <div class="formulario">
         <form action="" class="form-inline">
@@ -81,32 +83,54 @@
       </div>
       <hr />
 
-      <table class="table">
+      <table class="table" >
         <h3 class="text-center m-4">Tabla de amortizaciones</h3>
         <thead>
           <tr class="table-primary">
             <th class="table-primary" scope="col">Cuota Nro</th>
-            <th scope="col">Fecha</th>
-            <th scope="col">Cuota</th>
-            <th scope="col">Capital</th>
-            <th scope="col">Interes</th>
-            <th scope="col">Saldo</th>
+            <th class="table-primary" scope="col">Fecha</th>
+            <th class="table-primary" scope="col">Cuota</th>
+            <th class="table-primary" scope="col">Capital</th>
+            <th class="table-primary" scope="col">Interes</th>
+            <th class="table-primary" scope="col">Saldo</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
         <tfoot >
           <tr id="filaTotales">
-            <th scope="row">TOTAL</th>
+            <td scope="row">TOTAL</td>
             <td></td>
-            <td id="totalCuota"></td>
-            <td id="totalCapital"></td>
-            <td id="totalInteres"></td>
+            <td id="totalCuota" ></td>
+            <td id="totalCapital" ></td>
+            <td id="totalInteres" ></td>
             <td></td>
           </tr>
         </tfoot>
       </table>
-    </div>
 
+      <!-- <div id="totalCuota"></div>
+<div id="totalCapital"></div>
+<div id="totalInteres"></div> -->
+</div>
+<div class="col-1">
+
+
+<div class="card mt-5" style="width: 18rem;">
+  <div class="card-body" id="weather-info">
+    <h5 class="card-title">Clima</h5>
+    <p class="card-text">Temperatura: <span id="temp"></span>°C</p>
+    <p>Weather: <span id="weather"></span></p>
+    <img id="icon" src="">
+    <label for="city-input">Ingresa el nombre de la ciudad:</label>
+    <input type="text" id="ciudad-input" placeholder="Ej: Santiago">
+  </div>
+</div>
+
+</div>
+</div>
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="index.js"></script>
   </body>
 </html>
+
