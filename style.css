@@ -1,14 +1,17 @@
 
-/* *{
-    font-weight:normal;
-} */
-
 h1 {
   text-align: center;
   margin:50px;
 } 
 
-.container {
-    width:700px;    
+h4 {
+  text-align:center;
 }
 
+.container {
+    width:800px;    
+}
+
+.card {
+  background-color:rgb(215, 236, 255);
+}
