@@ -1,4 +1,4 @@
-//clase cuota
+//Clase cuota
 class Cuota {
   constructor(numeroCuota, fecha, mensualidad, pagocapital, pagointeres, credito) {
     this.numeroCuota = numeroCuota;
@@ -13,23 +13,31 @@ class Cuota {
 //Array de almacenacimiento de objetos clase Cuota
 let totalCuotas = [];
 
-//funcion calcularCredito
+//Funcion calcularCredito
 function calcularCredito(credito, cuotas, interes) {
+  document.getElementById("tbody").innerHTML = "";
+
+let tablaLlena =false;
+
   let numeroCuota = 1;
   let pagocapital = 0;
   let pagointeres = 0;
   let mensualidad = 0;
   let fecha = new Date();
+
 //variables para calcular el total a pagar
   let tcuota = 0;
   let tcapital = 0;
   let tinteres = 0;
 
-  //formula para calcular valor de cada cuota
+  //Formula para calcular valor de cada cuota
   mensualidad =(credito * ((Math.pow(1 + interes / 100, cuotas) * interes) / 100)) / (Math.pow(1 + interes / 100, cuotas) - 1);
 
-  document.getElementById("tbody").innerHTML = "";
   totalCuotas = [];
+
+  let tbody = document.getElementById("tbody");
+  if (tbody) {
+    tbody.innerHTML = "";
 
 
   for (let i = 1; i <= cuotas; i++) {
@@ -64,22 +72,30 @@ function calcularCredito(credito, cuotas, interes) {
    
     numeroCuota++;
   }
+  }
 
-  //calcular el total pagado en interes, capital y cuotas
+  //Calcular el total pagado en interes, capital y cuotas
   for (let i = 0; i < totalCuotas.length; i++) {
     tcuota += totalCuotas[i].mensualidad;
     tcapital += totalCuotas[i].pagocapital;
     tinteres += totalCuotas[i].pagointeres;
-  }
-    
-  let totalCuota = document.getElementById("totalCuota");
+  } 
+  
+
+let totalCuota = document.getElementById("totalCuota");
+if (totalCuota) {
   totalCuota.innerHTML = tcuota.toFixed(2);
+}
 
-  let totalCapital = document.getElementById("totalCapital");
+let totalCapital = document.getElementById("totalCapital");
+if (totalCapital) {
   totalCapital.innerHTML = tcapital.toFixed(2);
+}
 
-  let totalInteres = document.getElementById("totalInteres");
+let totalInteres = document.getElementById("totalInteres");
+if (totalInteres) {
   totalInteres.innerHTML = tinteres.toFixed(2);
+}
 
 
   // Convertir el array de objetos 'totalCuotas' a una cadena de texto JSON
@@ -94,18 +110,19 @@ function calcularCredito(credito, cuotas, interes) {
   // Convertir la cadena JSON a un array de objetos
   let totalCuotasArray = JSON.parse(totalCuotasJSONFromStorage);
 
-  console.log("totalCuotasJSONString");
-  console.log(totalCuotasJSONString);
-  console.log("totalCuotasJSONFromStorage");
-  console.log(totalCuotasJSONFromStorage);
-  console.log("totalCuotasArray");
-  console.log(totalCuotasArray);
+  // console.log("totalCuotasJSONString");
+  // console.log(totalCuotasJSONString);
+  // console.log("totalCuotasJSONFromStorage");
+  // console.log(totalCuotasJSONFromStorage);
+  // console.log("totalCuotasArray");
+  // console.log(totalCuotasArray);
 }
 
-//funcion limpiar la tabla - borrar
-function limpiarTabla() {
+ //Funcion limpiar tabla - Borrar
+ function limpiarTabla() {
 
-  //libreria sweetalert2
+
+  //Libreria sweetalert2
   Swal.fire({
     title: '¿Deseas eliminar la simulacion?',
     icon: 'question',
@@ -115,10 +132,13 @@ function limpiarTabla() {
     confirmButtonText: 'Si, eliminar'
   }).then((result) => {
     if (result.isConfirmed) {
-      let tabla = document.getElementById("tbody");
+
+    let tabla = document.getElementById("tbody");
   tabla.innerHTML = "";
-  let filaTotales = document.getElementById("filaTotales");
-  filaTotales.parentNode.removeChild(filaTotales);
+
+ if (filaTotales) {
+  filaTotales.innerHTML = "";
+}
       Swal.fire(
         'Eliminado!',
         'Tu simulacion ha sido eliminada',
@@ -133,23 +153,25 @@ let cuotas = document.getElementById("cuotas");
 let interes = document.getElementById("interes");
 let btnSimular = document.getElementById("btnSimular");
 let tabla = document.getElementById("tbody");
+let filaTotales = document.getElementById("filaTotales");
 
 let nombre = document.getElementById("nombre");
 let fecha = document.getElementById("fecha");
 
-// boton simular - llamado a funcion calcularCredito
+// Boton simular - Llamado a Funcion calcularCredito
 btnSimular.addEventListener("click", () => {
   
     calcularCredito(credito.value, cuotas.value, interes.value);
     
 });
 
-// manejador de evento para el botón Borrar - llama a la función para limpiar la tabla
-document.getElementById("btnBorrar").addEventListener("click", function () {
+// Manejador de evento para el botón Borrar - llama a la función limpiarTabla
+document.getElementById("btnBorrar").addEventListener("click", function () {  
+
   limpiarTabla();
 });
 
-// localStorage
+// LocalStorage
 nombre.addEventListener("input", () => {
   localStorage.setItem("nombre", nombre.value);
 });
@@ -209,6 +231,6 @@ function main() {
     cityInput.addEventListener("input", function(){
         ciudad = this.value;
         clearTimeout(timer);
-        timer = setTimeout(getWeather, 500);
+        timer = setTimeout(getWeather, 700);
     });
 }
